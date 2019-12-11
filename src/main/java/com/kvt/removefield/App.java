@@ -16,18 +16,20 @@ public class App {
 		String userId = "3590";
 		String jobId = "12345";
 		String type = "delete";
-		// query.containsKey(jobId);
 
 		try {
 			// condition if input is delete
 			if (type == "delete") {
-
+				
+				//build a local mongodb connection
+				//MongoClient mongoclient = new MongoClient("127.0.0.1", 27017);
+				
 				// building a connection to mongo cluster using uri
 				MongoClientURI uri = new MongoClientURI(
 						"mongodb+srv://Test:Test@cluster0-emxhp.mongodb.net/aadarshdb?retryWrites=true&w=majority");
 				MongoClient mongoClient = new MongoClient(uri);
 
-				// connecting to mongo database and collection 
+				// connecting to mongo database and collection using mongo java driver 3.6.3
 				//MongoDatabase database = mongoClient.getDatabase("aadarshdb");
 				//MongoCollection<Document> collection = database.getCollection("testCollection");
 
@@ -38,8 +40,10 @@ public class App {
 				// condition query
 				BasicDBObject query = new BasicDBObject();
 				query.put("userId", userId);
-
+			
 				BasicDBObject updatequery = new BasicDBObject("jobId", jobId);
+				
+				//operation need to be perfomed for removing/pulling the field(key value) from the document
 				coll.update(query, new BasicDBObject("$pull", updatequery));
 
 				mongoClient.close();
@@ -48,7 +52,7 @@ public class App {
 
 			} else {
 
-				System.out.println("entering into if statement where type equals to something");
+				System.out.println("entering into else statement");
 
 			}
 
